@@ -3,46 +3,47 @@
 
 ### DEVELOPMENT
 
-- you need to repleace .env files 
+- you need to replace
 ```python 
     .env.dev_example TO .env.dev
     .env_example TO .env
-``` 
+    .env_prod_db_example TO .env_prod_db
+ ``` 
 
 #### BUILD
 ```python
-    docker-compose -f docker-compose.dev.yml build
+    docker-compose build
 ```
 
 #### UP 
 ```python
-    docker-compose -f docker-compose.dev.yml up -d
+    docker-compose up -d
 ```
 
 #### MIGRATE 
 ```python
-    docker-compose -f docker-compose.dev.yml exec api python manage.py migrate 
+    docker-compose exec api python manage.py migrate 
 ```
 
 #### CREATE APP 
 ```python
-    docker-compose -f docker-compose.dev.yml exec api python manage.py startapp NAME_APP 
+    docker-compose exec api python manage.py startapp NAME_APP 
 ```
 
 ### PRODUCTION
 ### BUILD 
 ```python
-    docker-compose build 
+    docker-compose -f docker-compose.prod.yml build 
 ```
 ### UP 
 ```python
-    docker-compose up -d 
+    docker-compose -f docker-compose.prod.yml up -d 
 ``` 
 
 the rest of commands below, is a refference, to use in production or development mode, just change 
 
-Markup: > docker-compose -f docker-compose.dev.yml to docker-compose or biceversa
-        >> docker-compose -f docker-compose.dev.yml exec api python manage.py migrate
+Markup: > docker-compose -f docker-compose.prod.yml to docker-compose or biceversa
+        >> docker-compose -f docker-compose.prod.yml exec api python manage.py migrate 
         >> docker-compose exec api python manage.py migrate
 
 ### docker logs show
