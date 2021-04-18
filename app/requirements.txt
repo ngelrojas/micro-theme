@@ -1,0 +1,8 @@
+Django
+psycopg2-binary==2.8.5
+python-decouple==3.3
+gunicorn
+djangorestframework
+django-cors-headers
+flake8
+pytest-django
