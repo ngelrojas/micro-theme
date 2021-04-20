@@ -69,3 +69,22 @@ Markup: > docker-compose -f docker-compose.prod.yml to docker-compose or bicever
     docker volume inspect micro-bp_postgres_data
 ```
 
+### pytest
+- config pytest.ini on root app
+
+### run pytest on container
+```python
+    docker-compose run api sh -c "pytest -v"
+```
+OR
+
+```python
+    docker-compose exec api pytest -v
+```
+## duration time
+- display time slow in response
+```python
+    docker-compose exec api pytest -v -s --durations=0
+```
+
+

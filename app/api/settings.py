@@ -45,7 +45,9 @@ APP_THRIDPARTY = [
     "corsheaders"
 ]
 
-APP_API = []
+APP_API = [
+    "companies",
+]
 
 INSTALLED_APPS = APP_LOCAL + APP_THRIDPARTY + APP_API
 
