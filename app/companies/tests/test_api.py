@@ -10,6 +10,7 @@ from companies.models import Company
 
 logger = logging.getLogger("CORONA_LOGS")
 
+
 @pytest.mark.django_db
 class BasicCompanyAPITestCase(TestCase):
     def setUp(self) -> None:
@@ -19,8 +20,8 @@ class BasicCompanyAPITestCase(TestCase):
     def tearDown(self) -> None:
         pass
 
-class TestGetCompanies(BasicCompanyAPITestCase):
 
+class TestGetCompanies(BasicCompanyAPITestCase):
     def test_return_empty_list(self) -> None:
         response = self.client.get(self.companies_url)
         self.assertEqual(response.status_code, 200)
@@ -39,26 +40,26 @@ class TestGetCompanies(BasicCompanyAPITestCase):
 
 
 class TestPostCompanies(BasicCompanyAPITestCase):
-
     def test_create_company_fail(self) -> None:
         response = self.client.post(path=self.companies_url)
         self.assertEqual(response.status_code, 400)
         self.assertEqual(
-                json.loads(response.content), {"name": ["This field is required."]}
+            json.loads(response.content), {"name": ["This field is required."]}
         )
 
     def test_create_exits_fail(self) -> None:
         Company.objects.create(name="apple")
-        response = self.client.post(path=self.companies_url, data={"name":
-            "apple"})
+        response = self.client.post(path=self.companies_url, data={"name": "apple"})
         self.assertEqual(response.status_code, 400)
         self.assertEqual(
-                json.loads(response.content), {"name": ["company with this name already exists."]}
+            json.loads(response.content),
+            {"name": ["company with this name already exists."]},
         )
 
     def test_create_company_default(self) -> None:
-        response = self.client.post(path=self.companies_url, data={"name":
-            "test company name"})
+        response = self.client.post(
+            path=self.companies_url, data={"name": "test company name"}
+        )
         self.assertEqual(response.status_code, 201)
         response_content = json.loads(response.content)
         self.assertEqual(response_content.get("name"), "test company name")
@@ -67,25 +68,28 @@ class TestPostCompanies(BasicCompanyAPITestCase):
         self.assertEqual(response_content.get("notes"), "")
 
     def test_create_succeed(self) -> None:
-        response = self.client.post(path=self.companies_url, data={"name":
-            "apple", "status": "Layoffs"})
+        response = self.client.post(
+            path=self.companies_url, data={"name": "apple", "status": "Layoffs"}
+        )
         self.assertEqual(response.status_code, 201)
         response_content = json.loads(response.content)
         self.assertEqual(response_content.get("status"), "Layoffs")
 
     def test_create_wrong(self) -> None:
-        response = self.client.post(path=self.companies_url, data={"name":
-            "wronnamestatus", "status": "wronnamestatus"})
+        response = self.client.post(
+            path=self.companies_url,
+            data={"name": "wronnamestatus", "status": "wronnamestatus"},
+        )
         self.assertEqual(response.status_code, 400)
         self.assertIn("wronnamestatus", str(response.content))
 
     @pytest.mark.xfail
     def test_shoud_be_ok_fails(self) -> None:
-        self.assertEqual(1,2)
+        self.assertEqual(1, 2)
 
     @pytest.mark.skip
     def test_should_be_skipped(self) -> None:
-        self.assertEqual(1,2)
+        self.assertEqual(1, 2)
 
     def raise_covid19_exception(self) -> None:
         raise ValueError("CoronaVirus Exception")
