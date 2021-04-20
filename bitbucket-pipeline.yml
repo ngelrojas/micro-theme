@@ -9,5 +9,6 @@ pipelines:
             - pip
           script:
             - pip install pip --upgrade
+            - export PYTHONPATH=$PYTHONPATH:$PYTHONPATH/api/companies
             - pytest api/companies -s -v --durations=0
 
