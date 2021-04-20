@@ -9,6 +9,7 @@ pipelines:
             - pip
           script:
             - pip install pip --upgrade
-            - export PYTHONPATH=$PYTHONPATH:$PYTHONPATH/api/companies
-            - pytest api/companies -s -v --durations=0
+            - export PYTHONPATH=$PYTHONPATH:$PYTHONPATH/companies
+            - export DJANGO_SETTINGS_MODULE="api.settings"
+            - pytest companies -s -v --durations=0
 
