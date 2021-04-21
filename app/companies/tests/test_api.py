@@ -9,6 +9,9 @@ from companies.models import Company
 
 
 logger = logging.getLogger("CORONA_LOGS")
+client = Client()
+
+companies_url = reverse("companies-list")
 
 
 @pytest.mark.django_db
@@ -113,3 +116,32 @@ class TestPostCompanies(BasicCompanyAPITestCase):
     #     with caplog.at_level(logging.INFO):
     #         logger.info("I am logging info level")
     #         assert "I am logging info level" in caplog.text
+
+
+# --------------------- multiple companies -----------------------------
+
+
+@pytest.fixture()
+def company(**kwargs):
+    def _company_factory(**kwargs) -> Company:
+        company_name = kwargs.pop("name", "test company inc")
+        return Company.objects.create(name=company_name, **kwargs)
+
+    return _company_factory
+
+
+@pytest.mark.django_db
+def test_multiple_companies_exists_should_succeed(client, company) -> None:
+    # twich = Company.objects.create(name="Twitch")
+    # tiktok = Company.objects.create(name="TikTok")
+    # test_company = Company.objects.create(name="test company INC")
+    twich: Company = company(name="Twitch")
+    tiktok: Company = company(name="TikTok")
+    test_company: Company = company()
+    company_names = {twich.name, tiktok.name, test_company.name}
+    response_companies = client.get(companies_url).json()
+    assert len(company_names) == len(response_companies)
+    response_company_names = set(
+        map(lambda company: company.get("name"), response_companies)
+    )
+    assert company_names == response_company_names
