@@ -192,3 +192,8 @@ LOGGING = {
         },
     },
 }
+
+EMAIL_HOST = "smtp.mailtrap.io"
+EMAIL_HOST_USER = "44e5db4c53e88c"
+EMAIL_HOST_PASSWORD = "df8c6f3a3e5cd3"
+EMAIL_PORT = "2525"
